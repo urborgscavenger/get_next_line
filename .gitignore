@@ -1,0 +1,11 @@
+.DS_Store
+*.out
+*.o
+*.vscode
+.vscode
+.cursor
+*.cursor
+*.mdc
+*.a
+*.txt
+main.c
