@@ -44,7 +44,8 @@ char	*ft_strchr(const char *s, int c)
 	return (NULL);
 }
 
-// Helper function to join two strings into a new one.
+// Helper function to join two strings into a new one,
+// freeing the first string (s1).
 char	*ft_strjoin(char *s1, char const *s2)
 {
 	char	*str;
@@ -76,65 +77,53 @@ char	*ft_strjoin(char *s1, char const *s2)
 	return (str);
 }
 
-// Helper function to extract the next line from the buffer.
-char	*extract_line(char *stash)
+// Helper function to extract a single line from a larger string.
+char	*ft_get_line(char *line)
 {
-	char	*line;
+	char	*tmp;
 	size_t	i;
-	size_t	len;
+	size_t	j;
 
-	if (!stash || !*stash)
+	if (!line || !*line)
 		return (NULL);
 	i = 0;
-	while (stash[i] && stash[i] != '\n')
+	while (line[i] && line[i] != '\n')
 		i++;
-	if (stash[i] == '\n')
-		len = i + 1;
-	else
-		len = i;
-	line = (char *)malloc((len + 1) * sizeof(char));
-	if (!line)
+	if (line[i] == '\n')
+		i++;
+	tmp = (char *)malloc((i + 1) * sizeof(char));
+	if (!tmp)
 		return (NULL);
-	i = -1;
-	while (++i < len)
-		line[i] = stash[i];
-	line[i] = '\0';
-	return (line);
+	j = 0;
+	while (j < i)
+	{
+		tmp[j] = line[j];
+		j++;
+	}
+	tmp[j] = '\0';
+	return (tmp);
 }
 
-// Helper function to clean the buffer after a line has been extracted.
-char	*clean_stash(char *stash)
+// Helper function to clean the buffer by shifting the remaining content.
+// This is a non-malloc approach to prevent leaks.
+int	ft_clean_buff(char *buffer)
 {
-	char	*new_stash;
-	char	*p;
-	size_t	len;
 	size_t	i;
+	char	*start;
 
-	p = ft_strchr(stash, '\n');
-	if (!p)
+	start = ft_strchr(buffer, '\n');
+	if (!start)
 	{
-		free(stash);
-		return (NULL);
+		buffer[0] = '\0';
+		return (0);
 	}
-	len = ft_strlen(p + 1);
-	if (len == 0)
-	{
-		free(stash);
-		return (NULL);
-	}
-	new_stash = (char *)malloc((len + 1) * sizeof(char));
-	if (!new_stash)
-	{
-		free(stash);
-		return (NULL);
-	}
+	start++;
 	i = 0;
-	while (p[i + 1])
+	while (start[i])
 	{
-		new_stash[i] = p[i + 1];
+		buffer[i] = start[i];
 		i++;
 	}
-	new_stash[i] = '\0';
-	free(stash);
-	return (new_stash);
+	buffer[i] = '\0';
+	return (1);
 }

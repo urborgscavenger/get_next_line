@@ -16,6 +16,7 @@
 // Standard library includes for file operations and memory allocation.
 # include <unistd.h>
 # include <stdlib.h>
+# include <fcntl.h> // Include for open() function in the tester.
 
 // Define the BUFFER_SIZE for reading from the file descriptor.
 // This value can be changed to optimize performance.
@@ -24,13 +25,11 @@
 # endif
 
 // Function prototypes for get_next_line and its helper functions.
-// Note that the 'static' keyword has been removed from the helper
-// functions to allow them to be used in a separate file.
 char	*get_next_line(int fd);
+size_t	ft_strlen(const char *s);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strjoin(char *s1, char const *s2);
-size_t	ft_strlen(const char *s);
-char	*extract_line(char *stash);
-char	*clean_stash(char *stash);
+char	*ft_get_line(char *line);
+int		ft_clean_buff(char *buffer);
 
 #endif
