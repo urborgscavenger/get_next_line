@@ -137,12 +137,20 @@ char	*get_next_line(int fd)
 	ssize_t		bytes_read;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
+	{
+		free(stash);
+		stash = NULL;
 		return (NULL);
+	}
 	while (!ft_strchr(stash, '\n'))
 	{
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_read == -1)
-			return (free(stash), stash = NULL, NULL);
+		{
+			free(stash);
+			stash = NULL;
+			return (NULL);
+		}
 		if (bytes_read == 0)
 			break ;
 		buffer[bytes_read] = '\0';
@@ -151,6 +159,12 @@ char	*get_next_line(int fd)
 			return (NULL);
 	}
 	line = extract_line(stash);
+	if (!line)
+	{
+		free(stash);
+		stash = NULL;
+		return (NULL);
+	}
 	stash = clean_stash(stash);
 	return (line);
 }

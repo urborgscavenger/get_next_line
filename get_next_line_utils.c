@@ -112,17 +112,28 @@ char	*clean_stash(char *stash)
 
 	p = ft_strchr(stash, '\n');
 	if (!p)
-		return (free(stash), NULL);
-	p++;
-	if (!*p)
-		return (free(stash), NULL);
-	len = ft_strlen(p);
+	{
+		free(stash);
+		return (NULL);
+	}
+	len = ft_strlen(p + 1);
+	if (len == 0)
+	{
+		free(stash);
+		return (NULL);
+	}
 	new_stash = (char *)malloc((len + 1) * sizeof(char));
 	if (!new_stash)
-		return (free(stash), NULL);
-	i = -1;
-	while (++i < len)
-		new_stash[i] = p[i];
+	{
+		free(stash);
+		return (NULL);
+	}
+	i = 0;
+	while (p[i + 1])
+	{
+		new_stash[i] = p[i + 1];
+		i++;
+	}
 	new_stash[i] = '\0';
 	free(stash);
 	return (new_stash);
