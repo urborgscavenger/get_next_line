@@ -129,42 +129,46 @@
 // }
 
 // Main function to read a line from a file descriptor.
+// This version uses a static array to support multiple file descriptors.
 char	*get_next_line(int fd)
 {
-	static char	*stash;
+	static char	*stash[1024]; // Use an array for multiple file descriptors.
 	char		*line;
 	char		buffer[BUFFER_SIZE + 1];
 	ssize_t		bytes_read;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || fd >= 1024 || BUFFER_SIZE <= 0)
 	{
-		free(stash);
-		stash = NULL;
+		if (fd >= 0 && fd < 1024)
+		{
+			free(stash[fd]);
+			stash[fd] = NULL;
+		}
 		return (NULL);
 	}
-	while (!ft_strchr(stash, '\n'))
+	while (!ft_strchr(stash[fd], '\n'))
 	{
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_read == -1)
 		{
-			free(stash);
-			stash = NULL;
+			free(stash[fd]);
+			stash[fd] = NULL;
 			return (NULL);
 		}
 		if (bytes_read == 0)
 			break ;
 		buffer[bytes_read] = '\0';
-		stash = ft_strjoin(stash, buffer);
-		if (!stash)
+		stash[fd] = ft_strjoin(stash[fd], buffer);
+		if (!stash[fd])
 			return (NULL);
 	}
-	line = extract_line(stash);
+	line = extract_line(stash[fd]);
 	if (!line)
 	{
-		free(stash);
-		stash = NULL;
+		free(stash[fd]);
+		stash[fd] = NULL;
 		return (NULL);
 	}
-	stash = clean_stash(stash);
+	stash[fd] = clean_stash(stash[fd]);
 	return (line);
 }
