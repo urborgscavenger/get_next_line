@@ -46,10 +46,7 @@ char	*get_next_line(int fd)
 		buffer[bytes_read] = '\0';
 		tmp_line = ft_strjoin(nineway, buffer);
 		if (!tmp_line)
-		{
-			free(nineway);
 			return (NULL);
-		}
 		nineway = tmp_line;
 	}
 	res = ft_get_line(nineway);
