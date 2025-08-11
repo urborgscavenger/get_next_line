@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbauer <mbauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:36:01 by mbauer            #+#    #+#             */
-/*   Updated: 2025/08/11 14:05:09 by mbauer           ###   ########.fr       */
+/*   Updated: 2025/08/11 14:16:21 by mbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,29 +42,29 @@ char	*ft_read(char *nineway, int fd, char *buffer)
 // can only handle one file descriptor at a time.
 char	*get_next_line(int fd)
 {
-	static char	buffer[BUFFER_SIZE + 1];
+	static char	buffer[1024][BUFFER_SIZE + 1];
 	char		*nineway;
 	char		*res;
+	char		*buff;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || fd > 1024 || BUFFER_SIZE <= 0)
 		return (NULL);
+	buff = buffer[fd];
 	nineway = NULL;
 	if (buffer[0])
 	{
-		nineway = ft_strjoin(NULL, buffer);
+		nineway = ft_strjoin(NULL, buff);
 		if (!nineway)
 			return (NULL);
 	}
-	nineway = ft_read(nineway, fd, buffer);
+	nineway = ft_read(nineway, fd, buff);
 	if (!nineway)
-	{
-		return (buffer[0] = '\0', NULL);
-	}
+		return (buff[0] = '\0', NULL);
 	res = ft_get_line(nineway);
 	if (!res)
-		return (buffer[0] = '\0', free(nineway), NULL);
+		return (buff[0] = '\0', free(nineway), NULL);
 	if (res[0] == '\0')
-		return (buffer[0] = '\0', free(res), free(nineway), NULL);
-	ft_clean_buff(buffer);
+		return (buff[0] = '\0', free(res), free(nineway), NULL);
+	ft_clean_buff(buff);
 	return (free(nineway), res);
 }
