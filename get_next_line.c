@@ -6,7 +6,7 @@
 /*   By: mbauer <mbauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:36:01 by mbauer            #+#    #+#             */
-/*   Updated: 2025/08/11 14:05:09 by mbauer           ###   ########.fr       */
+/*   Updated: 2025/08/11 18:08:48 by mbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,9 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	nineway = NULL;
-	if (buffer[0])
-	{
-		nineway = ft_strjoin(NULL, buffer);
-		if (!nineway)
-			return (NULL);
-	}
+	nineway = ft_strjoin(NULL, buffer);
+	if (!nineway)
+		return (NULL);
 	nineway = ft_read(nineway, fd, buffer);
 	if (!nineway)
 	{

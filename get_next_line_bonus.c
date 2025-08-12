@@ -6,11 +6,11 @@
 /*   By: mbauer <mbauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:36:01 by mbauer            #+#    #+#             */
-/*   Updated: 2025/08/11 14:16:21 by mbauer           ###   ########.fr       */
+/*   Updated: 2025/08/11 18:11:19 by mbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*ft_read(char *nineway, int fd, char *buffer)
 {
@@ -51,12 +51,9 @@ char	*get_next_line(int fd)
 		return (NULL);
 	buff = buffer[fd];
 	nineway = NULL;
-	if (buffer[0])
-	{
-		nineway = ft_strjoin(NULL, buff);
-		if (!nineway)
-			return (NULL);
-	}
+	nineway = ft_strjoin(NULL, buff);
+	if (!nineway)
+		return (NULL);
 	nineway = ft_read(nineway, fd, buff);
 	if (!nineway)
 		return (buff[0] = '\0', NULL);

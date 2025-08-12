@@ -6,11 +6,11 @@
 /*   By: mbauer <mbauer@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:51:48 by mbauer            #+#    #+#             */
-/*   Updated: 2025/08/11 14:05:06 by mbauer           ###   ########.fr       */
+/*   Updated: 2025/08/11 14:43:21 by mbauer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 // Helper function to find the length of a string.
 size_t	ft_strlen(const char *s)
